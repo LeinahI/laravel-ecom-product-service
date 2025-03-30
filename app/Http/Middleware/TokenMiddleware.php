@@ -22,7 +22,7 @@ class TokenMiddleware
         $http = new Client();
         $response = $http->request(
             'POST',
-            env('AUTH_TOKEN_URL'),
+            env('AUTH_TOKEN_URL').'/api/auth/token',
             [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $token,
@@ -43,6 +43,10 @@ class TokenMiddleware
         $user = new User();
 
         collect($response)->each(function ($data, $key) use ($user) {
+            return $user;
+        });
+
+        $request->setUserResolver(function () use ($user) {
             return $user;
         });
 
