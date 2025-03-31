@@ -43,7 +43,7 @@ class TokenMiddleware
         $user = new User();
 
         collect($response)->each(function ($data, $key) use ($user) {
-            return $user;
+            $user->$key = $data;
         });
 
         $request->setUserResolver(function () use ($user) {
